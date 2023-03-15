@@ -3,13 +3,12 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class FixCamera : MonoBehaviour
+public class PlayerJump : MonoBehaviour
 {
     public ARTrackedImageManager imageManager;
-    public Camera mainCamera;
     public GameObject player;
-    public float yMin = 0f;
-    public float yMax = 3f;
+    public float yMin = 0;
+    public float yMax = 1;
 
     void OnEnable()
     {
@@ -33,20 +32,11 @@ public class FixCamera : MonoBehaviour
                 Debug.Log("Marker Y-position: " + markerYPosition);
 
                 // Calculate the y-position of the Player object within the desired range
-                float yPosition = Mathf.Clamp(50 * markerYPosition, yMin, yMax);
+                float yPosition = Mathf.Clamp((markerYPosition * 50), yMin, yMax);
 
                 // Set the y-position of the Player object
                 Vector3 playerPosition = player.transform.position;
                 playerPosition.y = yPosition;
-                player.transform.position = playerPosition;
-
-                // Set the y-position of the camera to follow the y-position of the marker
-                Vector3 cameraPosition = mainCamera.transform.position;
-                cameraPosition.y = markerYPosition;
-                mainCamera.transform.position = cameraPosition;
-
-                // Set the x-position of the Player object to follow the x-position of the camera
-                playerPosition.x = mainCamera.transform.position.x;
                 player.transform.position = playerPosition;
             }
         }
