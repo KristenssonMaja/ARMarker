@@ -6,10 +6,16 @@ using UnityEngine.XR.ARSubsystems;
 public class MovePlayerinxandy : MonoBehaviour
 {
     public ARTrackedImageManager imageManager;
-    public Camera mainCamera;
     public GameObject player;
     public float yMin = 0f;
     public float yMax = 3f;
+    private Vector3 originalPlayerPosition;
+
+    void Start()
+    {
+        // Store the original position of the player object
+        originalPlayerPosition = player.transform.position;
+    }
 
     void OnEnable()
     {
@@ -29,6 +35,7 @@ public class MovePlayerinxandy : MonoBehaviour
             {
                 // Get the y-position of the detected marker
                 float markerYPosition = trackedImage.transform.position.y;
+
                 // Use the y-position of the detected marker for any desired actions or calculations
                 Debug.Log("Marker Y-position: " + markerYPosition);
 
@@ -39,11 +46,6 @@ public class MovePlayerinxandy : MonoBehaviour
                 Vector3 playerPosition = player.transform.position;
                 playerPosition.y = yPosition;
                 player.transform.position = playerPosition;
-
-                // Set the x-position of the camera
-                Vector3 cameraPosition = mainCamera.transform.position;
-                cameraPosition.x = trackedImage.transform.position.x;
-                mainCamera.transform.position = cameraPosition;
             }
         }
     }
